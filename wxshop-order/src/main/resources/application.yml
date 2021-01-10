@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: orderservice
+  datasource:
+    url: jdbc:mysql://localhost:3306/order?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driverClassName: com.mysql.cj.jdbc.Driver
+
+wxshop:
+  orderservice:
+    version: 0.0.1
+
+dubbo:
+  scan:
+    base-packages: com.feiyongjing.wxshop.service
+  registry:
+    address: zookeeper://localhost:2181
+
+mybatis:
+  config-location: classpath:db/mybatis/config.xml

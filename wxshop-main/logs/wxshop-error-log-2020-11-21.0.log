@@ -1,0 +1,124 @@
+2020-11-21 10:56:57.155 [http-nio-auto-1-exec-5] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 1，数量：7
+2020-11-21 11:11:37.681 [http-nio-auto-1-exec-8] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 1，数量：7
+2020-11-21 11:35:11.678 [http-nio-auto-1-exec-3] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 1，数量：7
+2020-11-21 11:39:58.254 [http-nio-auto-1-exec-4] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 1，数量：7
+2020-11-21 11:45:55.069 [http-nio-auto-1-exec-5] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 1，数量：7
+2020-11-21 11:50:35.822 [http-nio-auto-1-exec-4] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 1，数量：7
+2020-11-21 11:52:52.414 [http-nio-auto-1-exec-5] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 1，数量：7
+2020-11-21 11:54:03.998 [http-nio-auto-1-exec-4] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 1，数量：7
+2020-11-21 12:01:45.494 [http-nio-auto-1-exec-5] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 12:10:21.461 [http-nio-auto-1-exec-8] ERROR org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/].[dispatcherServlet] - Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is redis.clients.jedis.exceptions.JedisConnectionException: Could not get a resource from the pool] with root cause
+java.net.SocketTimeoutException: connect timed out
+	at java.net.DualStackPlainSocketImpl.waitForConnect(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketConnect(DualStackPlainSocketImpl.java:81)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:476)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:218)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:200)
+	at java.net.PlainSocketImpl.connect(PlainSocketImpl.java:162)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:394)
+	at java.net.Socket.connect(Socket.java:606)
+	at redis.clients.jedis.DefaultJedisSocketFactory.createSocket(DefaultJedisSocketFactory.java:53)
+	at redis.clients.jedis.Connection.connect(Connection.java:158)
+	at redis.clients.jedis.BinaryClient.connect(BinaryClient.java:109)
+	at redis.clients.jedis.BinaryJedis.connect(BinaryJedis.java:1904)
+	at redis.clients.jedis.JedisFactory.makeObject(JedisFactory.java:130)
+	at org.apache.commons.pool2.impl.GenericObjectPool.create(GenericObjectPool.java:899)
+	at org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:429)
+	at org.apache.commons.pool2.impl.GenericObjectPool.borrowObject(GenericObjectPool.java:354)
+	at redis.clients.jedis.util.Pool.getResource(Pool.java:50)
+	at redis.clients.jedis.JedisPool.getResource(JedisPool.java:288)
+	at org.crazycake.shiro.RedisManager.getJedis(RedisManager.java:35)
+	at org.crazycake.shiro.WorkAloneRedisManager.get(WorkAloneRedisManager.java:50)
+	at org.crazycake.shiro.RedisCache.remove(RedisCache.java:114)
+	at org.apache.shiro.realm.AuthorizingRealm.clearCachedAuthorizationInfo(AuthorizingRealm.java:387)
+	at org.apache.shiro.realm.AuthorizingRealm.doClearCache(AuthorizingRealm.java:666)
+	at org.apache.shiro.realm.CachingRealm.clearCache(CachingRealm.java:170)
+	at org.apache.shiro.realm.CachingRealm.onLogout(CachingRealm.java:152)
+	at org.apache.shiro.authc.pam.ModularRealmAuthenticator.onLogout(ModularRealmAuthenticator.java:296)
+	at org.apache.shiro.mgt.DefaultSecurityManager.logout(DefaultSecurityManager.java:563)
+	at org.apache.shiro.subject.support.DelegatingSubject.logout(DelegatingSubject.java:367)
+	at com.feiyongjing.wxshop.controller.AuthController.logout(AuthController.java:62)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:190)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:138)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:105)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:878)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:792)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1040)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:943)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:652)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:733)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:61)
+	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:108)
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:137)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:450)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter$1.call(AbstractShiroFilter.java:365)
+	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:90)
+	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:83)
+	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:387)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:362)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:108)
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:137)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:373)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1589)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+2020-11-21 12:10:58.850 [http-nio-auto-1-exec-9] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 12:59:30.430 [http-nio-auto-1-exec-6] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 13:49:25.422 [http-nio-auto-1-exec-8] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 14:39:31.378 [http-nio-auto-1-exec-8] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 16:49:41.277 [http-nio-auto-1-exec-8] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 19:04:10.504 [http-nio-auto-1-exec-8] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 19:11:02.922 [http-nio-auto-1-exec-8] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 19:24:09.438 [http-nio-auto-1-exec-7] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 19:36:36.460 [http-nio-auto-1-exec-8] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 20:49:44.258 [http-nio-auto-1-exec-9] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 21:54:16.338 [http-nio-auto-1-exec-7] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 22:00:46.856 [http-nio-auto-1-exec-7] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 22:11:20.281 [http-nio-auto-1-exec-5] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 22:13:46.121 [http-nio-auto-1-exec-4] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6
+2020-11-21 22:17:52.091 [http-nio-auto-1-exec-4] ERROR com.feiyongjing.wxshop.service.OrderService - 扣减库存失败, 商品id: 2，数量：6

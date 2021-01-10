@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "wxshop.orderService.version",
+      "type": "java.lang.String",
+      "description": "Description for wxshop.orderService.version."
+    },
+    {
+      "name": "wxshop.orderservice.version",
+      "type": "java.lang.String",
+      "description": "Description for wxshop.orderservice.version."
+    }
+  ] }
