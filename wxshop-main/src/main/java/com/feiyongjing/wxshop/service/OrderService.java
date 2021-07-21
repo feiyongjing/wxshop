@@ -125,8 +125,6 @@ public class OrderService {
         PageResponse<RpcOrderGoods> pageRpcOrderGoods = orderRpcService.getOrder(pageNum, pageSize, dataStatus, userId);
         List<OrderResponse> data = new ArrayList<>();
         for (RpcOrderGoods rpcOrderGoods : pageRpcOrderGoods.getData()) {
-//            Map<Long, Goods> idToGoodsMap = getIdToGoodsMap(rpcOrderGoods.getGoodsInfos());
-//            OrderResponse orderResponse = generateResponse(rpcOrderGoods.getGoodsInfos(), idToGoodsMap, rpcOrderGoods.getOrder());
             data.add(getOrderResponse(rpcOrderGoods));
         }
         return PageResponse.of(pageRpcOrderGoods.getPageNum(),

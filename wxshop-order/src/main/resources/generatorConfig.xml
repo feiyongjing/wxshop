@@ -18,20 +18,20 @@
             <property name="forceBigDecimals" value="true" />
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.feiyongjing.wxshop.api.generate" targetProject="wxshop-api/src/main/java">
+        <javaModelGenerator targetPackage="com.feiyongjing.wxshop.api.generate" targetProject="../wxshop-api/src/main/java">
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="db.mybatis"  targetProject="wxshop-order/src/main/resources">
+        <sqlMapGenerator targetPackage="db.mybatis"  targetProject="../wxshop-order/src/main/resources">
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.feiyongjing.wxshop.api.generate"  targetProject="wxshop-order/src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.feiyongjing.wxshop.api.generate"  targetProject="../wxshop-order/src/main/java">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table schema="wxshop" tableName="ORDER" domainObjectName="Order" >
+        <table schema="wxshop" tableName="ORDER_TABLE" domainObjectName="Order" >
             <property name="useActualColumnNames" value="false"/>
             <generatedKey column="ID" sqlStatement="MySql" identity="true" />
         </table>

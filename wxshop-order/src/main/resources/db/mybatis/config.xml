@@ -8,5 +8,7 @@
     </settings>
     <mappers>
         <mapper resource="db/mybatis/MyOrderMapper.xml"/>
+        <mapper resource="db/mybatis/OrderMapper.xml"/>
+        <mapper resource="db/mybatis/OrderGoodsMapper.xml"/>
     </mappers>
 </configuration>

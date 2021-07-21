@@ -1,8 +1,11 @@
 package com.feiyongjing.wxshop;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.feiyongjing.wxshop.entity.LoginResponse;
+import com.feiyongjing.wxshop.entity.OrderResponse;
+import com.feiyongjing.wxshop.entity.Response;
 import com.feiyongjing.wxshop.generate.User;
 import com.github.kevinsawicki.http.HttpRequest;
 import org.flywaydb.core.Flyway;
@@ -111,6 +114,16 @@ public class AbstractIntegrationTest {
             this.code = code;
             this.body = body;
             this.headers = headers;
+        }
+
+        public HttpResponse assertOkStatusCode() {
+            Assertions.assertTrue(code >= 200 && code < 300, "" + code + ": " + body);
+            return this;
+        }
+
+        public <T> T asJsonObject(TypeReference<T> typeReference) throws JsonProcessingException {
+            T result = objectMapper.readValue(body, typeReference);
+            return result;
         }
     }
 

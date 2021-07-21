@@ -1,0 +1,35 @@
+GET http://localhost:8080/api/status
+Accept: application/json
+
+###
+POST http://localhost:8080/api/code
+Content-Type: application/json
+
+{
+  "tel": "13800000000",
+  "code": null
+}
+
+###
+POST http://localhost:8080/api/login
+Content-Type: application/json
+
+{
+  "tel": "13800000000",
+  "code": "000000"
+}
+
+###
+GET http://localhost:8080/api/status
+Accept: application/json
+
+###
+POST http://localhost:8080/api/logout
+Content-Type: application/json
+
+{}
+
+###
+GET http://localhost:8080/api/status
+Accept: application/json
+

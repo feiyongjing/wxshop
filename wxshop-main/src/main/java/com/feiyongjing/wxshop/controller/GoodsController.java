@@ -36,8 +36,6 @@ public class GoodsController {
 
     }
 
-    //    @PatchMapping("/goods/{id}")
-//    @PostMapping("/goods/{id}")
     @RequestMapping(value = "/goods/{id}", method = {RequestMethod.POST, RequestMethod.PATCH})
     public Response<Goods> updateGoods(@PathVariable("id") Long goodsId, @RequestBody Goods goods, HttpServletResponse response) {
         clean(goods);

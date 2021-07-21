@@ -83,13 +83,13 @@ public class RpcOrderRpcServiceImpl implements OrderRpcService {
     public PageResponse<RpcOrderGoods> getOrder(int pageNum, int pageSize, DataStatus datastatus, long userId) {
         OrderExample orderExample = new OrderExample();
         orderExample.createCriteria().andUserIdEqualTo(userId);
-        if(datastatus==null){
+        if (datastatus == null) {
             orderExample.createCriteria().andStatusEqualTo(DataStatus.DELETED.getName());
-        }else {
+        } else {
             orderExample.createCriteria().andStatusEqualTo(datastatus.getName());
         }
-        int count = (int)orderMapper.countByExample(orderExample);
-        int totalPage= count%pageSize==0 ? count/pageSize: count/pageSize-1;
+        int count = (int) orderMapper.countByExample(orderExample);
+        int totalPage = count % pageSize == 0 ? count / pageSize : count / pageSize - 1;
         orderExample.setLimit(pageSize);
         orderExample.setOffset((pageNum - 1) * pageSize);
         List<Order> orderList = orderMapper.selectByExample(orderExample);

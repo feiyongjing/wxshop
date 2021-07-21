@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +19,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     public UserLoginInterceptor(UserService userService) {
         this.userService = userService;
     }
+
     private boolean isWhitelist(HttpServletRequest request) {
         String uri = request.getRequestURI();
         return Arrays.asList(
@@ -33,25 +33,26 @@ public class UserLoginInterceptor implements HandlerInterceptor {
                 "/manifest.json"
         ).contains(uri) || uri.startsWith("/static/");
     }
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Object tel = SecurityUtils.getSubject().getPrincipal();
-        if (tel != null) {
+        if (SecurityUtils.getSubject().isAuthenticated()) {
+            Object tel = SecurityUtils.getSubject().getPrincipal();
             User user = userService.getUserByTel(tel.toString());
             UserContext.setCurrentUser(user);
+            return true;
         }
         if (isWhitelist(request)) {
             return true;
-        } else if (UserContext.getCurrentUser() == null) {
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            return false;
-        } else {
-            return true;
         }
+
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        return false;
     }
 
+
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         UserContext.setCurrentUser(null);
     }
 }

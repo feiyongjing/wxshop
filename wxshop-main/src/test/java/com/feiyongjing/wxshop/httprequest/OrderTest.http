@@ -1,0 +1,12 @@
+POST http://localhost:8080/api/login
+Content-Type: application/json
+
+{
+  "tel": "13800000000",
+  "code": "000000"
+}
+###
+GET http://localhost:8080/api/order?pageSize=1&pageNum=1&status=pending
+Accept: application/json
+
+###

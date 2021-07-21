@@ -1,5 +1,7 @@
 package com.feiyongjing.wxshop.api;
 
+import com.feiyongjing.wxshop.api.exception.HttpException;
+
 public enum DataStatus {
     OK(),
     DELETED(),
@@ -20,7 +22,7 @@ public enum DataStatus {
             }
             return DataStatus.valueOf(name.toUpperCase());
         } catch (IllegalArgumentException e) {
-            return null;
+            throw HttpException.badRequest("非法status: " + name);
         }
     }
 }

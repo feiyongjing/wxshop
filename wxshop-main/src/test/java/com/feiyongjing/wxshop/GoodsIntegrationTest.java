@@ -21,6 +21,12 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 @SpringBootTest(classes = WxshopApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"spring.config.location=classpath:test-application.yml"})
 public class GoodsIntegrationTest extends AbstractIntegrationTest {
+    /**
+     * 测试添加店铺接口
+     * @param userLoginResponse 登录状态信息
+     * @return 新添加的店铺ID
+     * @throws JsonProcessingException
+     */
     public Long testCreateShop(UserLoginResponse userLoginResponse) throws JsonProcessingException {
 
         Shop shop = new Shop();
@@ -42,6 +48,13 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
         return shopInResponse.getData().getId();
     }
 
+    /**
+     * 测试添加商品接口
+     * @param userLoginResponse 登录状态信息
+     * @param shopId 商品所在店铺ID
+     * @return 新添加的商品ID
+     * @throws JsonProcessingException
+     */
     public Long testCreateGoods(UserLoginResponse userLoginResponse, Long shopId) throws JsonProcessingException {
         Goods goods = new Goods();
         goods.setName("肥皂");
@@ -69,6 +82,12 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
         return goodsResponseData.getId();
     }
 
+    /**
+     * 查询店铺信息接口
+     * @param userLoginResponse 登录状态信息
+     * @param shopId 指定查询的店铺ID
+     * @throws JsonProcessingException
+     */
     public void testGetShopById(UserLoginResponse userLoginResponse, Long shopId) throws JsonProcessingException {
         HttpResponse shopResponse = doHttpResponse("/api/shop/" + shopId, "GET", null, userLoginResponse.cookie);
         Response<Shop> shopInResponse = objectMapper.readValue(shopResponse.body, new TypeReference<Response<Shop>>() {
@@ -83,6 +102,12 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
         Assertions.assertEquals(userLoginResponse.user.getId(), shopInResponse.getData().getOwnerUserId());
     }
 
+    /**
+     * 查询商品信息接口
+     * @param userLoginResponse 登录状态信息
+     * @param goodsId 指定查询的商品ID
+     * @throws JsonProcessingException
+     */
     public void testGetGoodsById(UserLoginResponse userLoginResponse, Long goodsId) throws JsonProcessingException {
 
         HttpResponse goodsResponse = doHttpResponse("/api/goods/" + goodsId, "GET", null, userLoginResponse.cookie);
@@ -101,6 +126,12 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
 //        Assertions.assertEquals(1L, goodsResponseData.getShopId());
     }
 
+    /**
+     * 修改店铺信息接口
+     * @param userLoginResponse 登录状态信息
+     * @param shopId 指定店铺ID修改
+     * @throws JsonProcessingException
+     */
     public void testUpdateShop(UserLoginResponse userLoginResponse, Long shopId) throws JsonProcessingException {
         Shop shop = new Shop();
         shop.setId(shopId);
@@ -122,6 +153,13 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
         Assertions.assertEquals(userLoginResponse.user.getId(), shopInResponse.getData().getOwnerUserId());
     }
 
+    /**
+     * 修改商品信息接口
+     * @param userLoginResponse 登录状态信息
+     * @param goodsId 指定商品ID修改
+     * @param shopId 商品所属店铺ID
+     * @throws JsonProcessingException
+     */
     public void testUpdateGoods(UserLoginResponse userLoginResponse, Long goodsId, Long shopId) throws JsonProcessingException {
         Goods goods = new Goods();
         goods.setName("肥皂");
@@ -148,6 +186,13 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
         Assertions.assertEquals(shopId, goodsResponseData.getShopId());
     }
 
+    /**
+     * 删除商品信息接口
+     * @param userLoginResponse 登录状态信息
+     * @param goodsId 指定商品ID删除
+     * @param shopId 商品所属店铺ID
+     * @throws JsonProcessingException
+     */
     public void testDeleteGoods(UserLoginResponse userLoginResponse, Long goodsId, Long shopId) throws JsonProcessingException {
         HttpResponse goodsResponse = doHttpResponse("/api/goods/" + goodsId, "DELETE", null, userLoginResponse.cookie);
         Assertions.assertEquals(204, goodsResponse.code);
@@ -158,10 +203,16 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
         Assertions.assertEquals(200, goodsResponse.code);
         Assertions.assertEquals(goodsId, goodsInResponse.getData().getId());
         Assertions.assertEquals(shopId, goodsInResponse.getData().getShopId());
-        Assertions.assertEquals("delete", goodsInResponse.getData().getStatus());
+        Assertions.assertEquals("deleted", goodsInResponse.getData().getStatus());
 
     }
 
+    /**
+     * 删除店铺信息接口
+     * @param userLoginResponse 登录状态信息
+     * @param shopId 指定店铺ID删除
+     * @throws JsonProcessingException
+     */
     public void testDeleteShop(UserLoginResponse userLoginResponse, Long shopId) throws JsonProcessingException {
         HttpResponse shopResponse = doHttpResponse("/api/shop/" + shopId, "DELETE", null, userLoginResponse.cookie);
         Assertions.assertEquals(204, shopResponse.code);
@@ -172,7 +223,7 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
         Assertions.assertEquals(200, shopResponse.code);
         Assertions.assertEquals(shopId, shopInResponse.getData().getId());
         Assertions.assertEquals(userLoginResponse.user.getId(), shopInResponse.getData().getOwnerUserId());
-        Assertions.assertEquals("delete", shopInResponse.getData().getStatus());
+        Assertions.assertEquals("deleted", shopInResponse.getData().getStatus());
 
     }
 
@@ -181,7 +232,6 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
         UserLoginResponse userLoginResponse = loginAndGetCookie();
 
         Long shopId = testCreateShop(userLoginResponse);
-
         Long goodsId = testCreateGoods(userLoginResponse, shopId);
 
         testGetShopById(userLoginResponse, shopId);

@@ -3,10 +3,9 @@ package com.feiyongjing.wxshop.controller;
 
 import com.feiyongjing.wxshop.api.DataStatus;
 import com.feiyongjing.wxshop.api.data.OrderInfo;
-import com.feiyongjing.wxshop.api.exception.HttpException;
+import com.feiyongjing.wxshop.api.data.PageResponse;
 import com.feiyongjing.wxshop.api.generate.Order;
 import com.feiyongjing.wxshop.entity.OrderResponse;
-import com.feiyongjing.wxshop.api.data.PageResponse;
 import com.feiyongjing.wxshop.entity.Response;
 import com.feiyongjing.wxshop.service.OrderService;
 import com.feiyongjing.wxshop.service.UserContext;
@@ -41,7 +40,7 @@ public class OrderController {
         return Response.of(orderService.deleteOrder(orderId, UserContext.getCurrentUser().getId()));
     }
 
-    @PatchMapping("/order/{id}")
+    @RequestMapping(value = "/order/{id}", method = {RequestMethod.POST, RequestMethod.PATCH})
     public Response<OrderResponse> updateOrder(@PathVariable("id") long orderId, @RequestBody Order order) {
         if (order.getExpressCompany() != null) {
             return Response.of(orderService.updateExpressInformation(orderId, order, UserContext.getCurrentUser().getId()));
@@ -54,9 +53,7 @@ public class OrderController {
     public PageResponse<OrderResponse> getOrder(@RequestParam("pageNum") int pageNum,
                                                 @RequestParam("pageSize") int pageSize,
                                                 @RequestParam(value = "status", required = false) String status) {
-        if (DataStatus.fromStatus(status) == null) {
-            throw HttpException.badRequest("非法status: " + status);
-        }
+
         return orderService.getOrder(pageNum, pageSize, DataStatus.fromStatus(status), UserContext.getCurrentUser().getId());
     }
 
