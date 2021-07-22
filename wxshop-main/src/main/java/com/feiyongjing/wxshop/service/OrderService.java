@@ -134,15 +134,9 @@ public class OrderService {
     }
 
     public OrderResponse updateExpressInformation(long orderId, Order order, Long userId) {
-        Order currentOrder = orderRpcService.getOrderByOrderId(orderId);
-        if (currentOrder == null) {
-            throw HttpException.notFound("订单未找到：" + orderId);
-        }
+        RpcOrderGoods rpcOrderGoods = orderRpcService.getOrderById(orderId);
 
-        Shop shop = shopService.getShopById(currentOrder.getShopId());
-        if (shop == null) {
-            throw HttpException.notFound("店铺未找到：" + currentOrder.getShopId());
-        }
+        Shop shop = shopService.getShopById(rpcOrderGoods.getOrder().getShopId());
         if (!Objects.equals(shop.getOwnerUserId(), userId)) {
             throw HttpException.forbidden("无权访问！");
         }
@@ -151,7 +145,7 @@ public class OrderService {
         copy.setExpressId(order.getExpressId());
         copy.setExpressCompany(order.getExpressCompany());
 
-        RpcOrderGoods rpcOrderGoods = orderRpcService.updateOrder(copy);
+        rpcOrderGoods = orderRpcService.updateOrder(copy);
         return getOrderResponse(rpcOrderGoods);
     }
 
@@ -161,18 +155,18 @@ public class OrderService {
     }
 
     public OrderResponse updateOrderStatus(long orderId, Order order, Long userId) {
-        Order currentOrder = orderRpcService.getOrderByOrderId(orderId);
-        if (currentOrder == null) {
+        RpcOrderGoods rpcOrderGoods =orderRpcService.getOrderById(orderId);
+        if (rpcOrderGoods == null) {
             throw HttpException.notFound("订单未找到：" + orderId);
         }
-        if (!Objects.equals(currentOrder.getUserId(), userId)) {
+        if (!Objects.equals(rpcOrderGoods.getOrder().getUserId(), userId)) {
             throw HttpException.forbidden("无权访问！");
         }
         Order copy = new Order();
         copy.setId(orderId);
         copy.setStatus(order.getStatus());
 
-        RpcOrderGoods rpcOrderGoods = orderRpcService.updateOrder(copy);
+        rpcOrderGoods = orderRpcService.updateOrder(copy);
         return getOrderResponse(rpcOrderGoods);
     }
 }

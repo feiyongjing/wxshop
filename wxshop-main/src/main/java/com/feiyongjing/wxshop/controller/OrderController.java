@@ -29,17 +29,33 @@ public class OrderController {
         return "";
     }
 
+    /**
+     * 添加订单
+     * @param orderInfo
+     * @return {}
+     */
     @PostMapping("/order")
     public Response<OrderResponse> createOrder(@RequestBody OrderInfo orderInfo) {
         orderService.deductStock(orderInfo);
         return Response.of(orderService.createOrder(orderInfo, UserContext.getCurrentUser().getId()));
     }
 
+    /**
+     * 删除订单
+     * @param orderId
+     * @return {}
+     */
     @DeleteMapping("/order/{id}")
     public Response<OrderResponse> deleteOrder(@PathVariable("id") int orderId) {
         return Response.of(orderService.deleteOrder(orderId, UserContext.getCurrentUser().getId()));
     }
 
+    /**
+     * 修改订单
+     * @param orderId
+     * @param order
+     * @return {}
+     */
     @RequestMapping(value = "/order/{id}", method = {RequestMethod.POST, RequestMethod.PATCH})
     public Response<OrderResponse> updateOrder(@PathVariable("id") long orderId, @RequestBody Order order) {
         if (order.getExpressCompany() != null) {
@@ -49,6 +65,13 @@ public class OrderController {
         }
     }
 
+    /**
+     * 分页获取订单
+     * @param pageNum 页码数
+     * @param pageSize 分页大小
+     * @param status 订单状态 可以不填写
+     * @return {}
+     */
     @GetMapping("/order")
     public PageResponse<OrderResponse> getOrder(@RequestParam("pageNum") int pageNum,
                                                 @RequestParam("pageSize") int pageSize,

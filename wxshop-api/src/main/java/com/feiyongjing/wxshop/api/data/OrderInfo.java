@@ -6,7 +6,7 @@ import java.util.List;
 public class OrderInfo implements Serializable {
     private long orderId;
     private String address;
-    List<GoodsInfo>  goodsInfos;
+    List<GoodsInfo> goodsInfos;
 
     public long getOrderId() {
         return orderId;

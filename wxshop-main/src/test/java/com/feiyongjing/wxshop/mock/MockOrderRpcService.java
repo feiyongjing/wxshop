@@ -30,8 +30,8 @@ public class MockOrderRpcService implements OrderRpcService {
     }
 
     @Override
-    public Order getOrderByOrderId(long orderId) {
-        return orderRpcService.getOrderByOrderId(orderId);
+    public RpcOrderGoods getOrderById(long orderId) {
+        return orderRpcService.getOrderById(orderId);
     }
 
     @Override

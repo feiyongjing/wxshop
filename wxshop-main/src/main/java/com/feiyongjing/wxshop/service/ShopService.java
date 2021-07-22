@@ -79,7 +79,7 @@ public class ShopService {
     public Shop getShopById(Long id) {
         Shop shop = shopMapper.selectByPrimaryKey(id);
         if (shop == null) {
-            throw HttpException.notFound("商品未找到!");
+            throw HttpException.notFound("未找到指定店铺!");
         }
         return shop;
     }

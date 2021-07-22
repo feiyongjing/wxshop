@@ -6,9 +6,7 @@ import com.feiyongjing.wxshop.api.data.OrderInfo;
 import com.feiyongjing.wxshop.api.data.PageResponse;
 import com.feiyongjing.wxshop.api.data.RpcOrderGoods;
 import com.feiyongjing.wxshop.api.exception.HttpException;
-import com.feiyongjing.wxshop.api.generate.Order;
-import com.feiyongjing.wxshop.api.generate.OrderExample;
-import com.feiyongjing.wxshop.api.generate.OrderMapper;
+import com.feiyongjing.wxshop.api.generate.*;
 import com.feiyongjing.wxshop.api.rpc.OrderRpcService;
 import com.feiyongjing.wxshop.mapper.MyOrderMapper;
 import org.apache.dubbo.config.annotation.Service;
@@ -20,11 +18,19 @@ import java.util.List;
 import java.util.Objects;
 
 @Service(version = "${wxshop.orderservice.version}")
-public class RpcOrderRpcServiceImpl implements OrderRpcService {
-    @Autowired
+public class RpcOrderServiceImpl implements OrderRpcService {
+
     private OrderMapper orderMapper;
-    @Autowired
+
     private MyOrderMapper myOrderMapper;
+
+    private OrderGoodsMapper orderGoodsMapper;
+    @Autowired
+    public RpcOrderServiceImpl(OrderMapper orderMapper, MyOrderMapper myOrderMapper, OrderGoodsMapper orderGoodsMapper) {
+        this.orderMapper = orderMapper;
+        this.myOrderMapper = myOrderMapper;
+        this.orderGoodsMapper = orderGoodsMapper;
+    }
 
     @Override
     public Order createOrder(OrderInfo orderInfo, Order order) {
@@ -61,7 +67,7 @@ public class RpcOrderRpcServiceImpl implements OrderRpcService {
             throw HttpException.notFound("订单未找到");
         }
         if (!Objects.equals(order.getUserId(), userId)) {
-            throw HttpException.notFound("无权删除订单");
+            throw HttpException.forbidden("无权删除订单");
         }
         List<GoodsInfo> goodsInfos = myOrderMapper.getGoodsInfoOfOrder(orderId);
 
@@ -89,7 +95,7 @@ public class RpcOrderRpcServiceImpl implements OrderRpcService {
             orderExample.createCriteria().andStatusEqualTo(datastatus.getName());
         }
         int count = (int) orderMapper.countByExample(orderExample);
-        int totalPage = count % pageSize == 0 ? count / pageSize : count / pageSize - 1;
+        int totalPage = count % pageSize == 0 ? count / pageSize : count / pageSize + 1;
         orderExample.setLimit(pageSize);
         orderExample.setOffset((pageNum - 1) * pageSize);
         List<Order> orderList = orderMapper.selectByExample(orderExample);
@@ -104,12 +110,13 @@ public class RpcOrderRpcServiceImpl implements OrderRpcService {
     }
 
     @Override
-    public Order getOrderByOrderId(long orderId) {
+    public RpcOrderGoods getOrderById(long orderId) {
         Order currentOrder = orderMapper.selectByPrimaryKey(orderId);
         if (currentOrder == null) {
             throw HttpException.notFound("订单未找到：" + orderId);
         }
-        return currentOrder;
+        List<GoodsInfo> goodsInfos = myOrderMapper.getGoodsInfoOfOrder(orderId);
+        return getRpcOrderGoods(currentOrder, goodsInfos);
     }
 
     @Override

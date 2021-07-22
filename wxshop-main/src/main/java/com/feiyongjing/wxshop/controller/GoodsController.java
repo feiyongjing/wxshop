@@ -22,6 +22,12 @@ public class GoodsController {
         this.goodsService = goodsService;
     }
 
+    /**
+     * 添加商品
+     * @param goods
+     * @param response
+     * @return {}
+     */
     @PostMapping("/goods")
     public Response<Goods> createGoods(@RequestBody Goods goods, HttpServletResponse response) {
         clean(goods);
@@ -29,6 +35,12 @@ public class GoodsController {
         return Response.of(goodsService.create(goods));
     }
 
+    /**
+     * 删除商品
+     * @param goodsId
+     * @param response
+     * @return {}
+     */
     @DeleteMapping("/goods/{id}")
     public Response<Goods> deleteGoods(@PathVariable("id") Long goodsId, HttpServletResponse response) {
         response.setStatus(SC_NO_CONTENT);
@@ -36,6 +48,14 @@ public class GoodsController {
 
     }
 
+    /**
+     * 修改商品
+     *
+     * @param goodsId
+     * @param goods
+     * @param response
+     * @return {}
+     */
     @RequestMapping(value = "/goods/{id}", method = {RequestMethod.POST, RequestMethod.PATCH})
     public Response<Goods> updateGoods(@PathVariable("id") Long goodsId, @RequestBody Goods goods, HttpServletResponse response) {
         clean(goods);
@@ -44,6 +64,13 @@ public class GoodsController {
 
     }
 
+    /**
+     * 分页查询商品
+     * @param pageNum
+     * @param pageSize
+     * @param shopId
+     * @return {}
+     */
     @GetMapping("/goods")
     @ResponseBody
     public Response<PageResponse<Goods>> getGoods(@RequestParam("pageNum") Integer pageNum,
@@ -52,6 +79,11 @@ public class GoodsController {
         return Response.of(goodsService.getGoods(pageNum, pageSize, shopId));
     }
 
+    /**
+     * 获取商品
+     * @param id
+     * @return {}
+     */
     @GetMapping("/goods/{id}")
     @ResponseBody
     public Response<Goods> getGoodsById(@PathVariable("id") Long id) {

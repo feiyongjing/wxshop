@@ -13,7 +13,7 @@ public interface OrderRpcService {
 
     PageResponse<RpcOrderGoods> getOrder(int pageNum, int pageSize, DataStatus datastatus, long userId);
 
-    Order getOrderByOrderId(long orderId);
+    RpcOrderGoods getOrderById(long orderId);
 
     RpcOrderGoods updateOrder(Order order);
 }

@@ -69,18 +69,15 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
         UserLoginResponse userLoginResponse = loginAndGetCookie();
         OrderInfo orderInfo = new OrderInfo();
 
-        GoodsInfo goodsInfo1 = new GoodsInfo();
-        GoodsInfo goodsInfo2 = new GoodsInfo();
+        GoodsInfo goodsInfo1 = new GoodsInfo(1, 3);
+        GoodsInfo goodsInfo2 = new GoodsInfo(2, 1);
 
-        goodsInfo1.setId(1);
-        goodsInfo1.setNumber(3);
-        goodsInfo2.setId(2);
-        goodsInfo2.setNumber(1);
         orderInfo.setGoodsInfos(Arrays.asList(goodsInfo1, goodsInfo2));
 
         Response<OrderResponse> orderInResponse = doHttpResponse("/api/order", "POST", orderInfo, userLoginResponse.cookie)
                 .assertOkStatusCode()
-                .asJsonObject(new TypeReference<Response<OrderResponse>>() {});
+                .asJsonObject(new TypeReference<Response<OrderResponse>>() {
+                });
 
         Shop returnShop = orderInResponse.getData().getShop();
         List<GoodsWithNumber> returnGoodsList = orderInResponse.getData().getGoods();
@@ -115,8 +112,8 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
         UserLoginResponse userLoginResponse = loginAndGetCookie();
         OrderInfo orderInfo = new OrderInfo();
 
-        GoodsInfo goodsInfo1 = new GoodsInfo();
-        GoodsInfo goodsInfo2 = new GoodsInfo();
+        GoodsInfo goodsInfo1 = new GoodsInfo(1, 4);
+        GoodsInfo goodsInfo2 = new GoodsInfo(2, 6);
 
         goodsInfo1.setId(1);
         goodsInfo1.setNumber(4);
@@ -349,6 +346,7 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
     /**
      * 修改订单接口
      * 订单ID参数错误，找不到订单
+     *
      * @throws Exception
      */
     @Test
@@ -364,6 +362,7 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
     /**
      * 修改订单接口
      * 修改订单快递信息
+     *
      * @throws Exception
      */
     @Test
@@ -381,7 +380,11 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
         orderInDB.setId(12345L);
         orderInDB.setShopId(2L);
 
-        when(mockOrderRpcService.orderRpcService.getOrderByOrderId(12345L)).thenReturn(orderInDB);
+        RpcOrderGoods rpcOrderGoods = new RpcOrderGoods();
+        rpcOrderGoods.setOrder(orderInDB);
+        rpcOrderGoods.setGoodsInfos(Collections.singletonList(new GoodsInfo(1, 10)));
+
+        when(mockOrderRpcService.orderRpcService.getOrderById(12345L)).thenReturn(rpcOrderGoods);
         when(mockOrderRpcService.orderRpcService.updateOrder(any())).thenReturn(
                 mockRpcOderGoods(12345L, 1L, 3L, 2L, 10, DataStatus.DELIVERED)
         );
@@ -402,6 +405,7 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
     /**
      * 修改订单接口
      * 修改订单状态
+     *
      * @throws Exception
      */
     @Test
@@ -418,7 +422,11 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
         orderInDB.setUserId(1L);
         orderInDB.setShopId(2L);
 
-        when(mockOrderRpcService.orderRpcService.getOrderByOrderId(12345L)).thenReturn(orderInDB);
+        RpcOrderGoods rpcOrderGoods = new RpcOrderGoods();
+        rpcOrderGoods.setOrder(orderInDB);
+        rpcOrderGoods.setGoodsInfos(Collections.singletonList(new GoodsInfo(1, 10)));
+
+        when(mockOrderRpcService.orderRpcService.getOrderById(12345L)).thenReturn(rpcOrderGoods);
         when(mockOrderRpcService.orderRpcService.updateOrder(any())).thenReturn(
                 mockRpcOderGoods(12345L, 1L, 3L, 2L, 10, DataStatus.RECEIVED)
         );
@@ -435,6 +443,7 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
         Assertions.assertEquals(3, response.getData().getGoods().get(0).getId());
         Assertions.assertEquals(10, response.getData().getGoods().get(0).getNumber());
     }
+
     /**
      * @return 假造的数据进行分页组装
      */
@@ -456,10 +465,7 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
     private RpcOrderGoods mockRpcOderGoods(long orderId, long userId, long goodsId, long shopId, int number, DataStatus status) {
         RpcOrderGoods orderGoods = new RpcOrderGoods();
         Order order = new Order();
-        GoodsInfo goodsInfo = new GoodsInfo();
-
-        goodsInfo.setId(goodsId);
-        goodsInfo.setNumber(number);
+        GoodsInfo goodsInfo = new GoodsInfo(goodsId, number);
 
         order.setId(orderId);
         order.setUserId(userId);
@@ -470,7 +476,7 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
         order.setAddress("xx省xx市xx县xx村xx号");
 
         orderGoods.setOrder(order);
-        orderGoods.setGoodsInfos(Arrays.asList(goodsInfo));
+        orderGoods.setGoodsInfos(Collections.singletonList(goodsInfo));
         return orderGoods;
     }
 }

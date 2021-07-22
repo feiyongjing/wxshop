@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.feiyongjing.wxshop.entity.LoginResponse;
-import com.feiyongjing.wxshop.entity.OrderResponse;
-import com.feiyongjing.wxshop.entity.Response;
 import com.feiyongjing.wxshop.generate.User;
 import com.github.kevinsawicki.http.HttpRequest;
 import org.flywaydb.core.Flyway;

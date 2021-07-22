@@ -4,7 +4,7 @@
     <insert id="insertOrders" parameterType="com.feiyongjing.wxshop.api.data.OrderInfo">
         insert into `ORDER_GOODS` (GOODS_ID, ORDER_ID, NUMBER)
         VALUES
-        <foreach item="item" collection="goods">
+        <foreach item="item" collection="goodsInfos" separator=",">
             (#{item.id},#{orderId},#{item.number})
         </foreach>
     </insert>

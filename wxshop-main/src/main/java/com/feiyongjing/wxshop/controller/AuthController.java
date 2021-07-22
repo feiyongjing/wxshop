@@ -26,6 +26,11 @@ public class AuthController {
         this.telVerificationService = telVerificationService;
     }
 
+    /**
+     * 发送验证码
+     * @param telAndCode
+     * @param response
+     */
     @PostMapping("/code")
     public void code(@RequestBody TelAndCode telAndCode, HttpServletResponse response) {
         if (telVerificationService.verifyTelParameter(telAndCode)) {
@@ -35,6 +40,12 @@ public class AuthController {
         }
     }
 
+    /**
+     * 登录
+     * @param telAndCode
+     * @param response
+     * @param request
+     */
     @PostMapping("/login")
     public void login(@RequestBody TelAndCode telAndCode, HttpServletResponse response, HttpServletRequest request) {
         UsernamePasswordToken token = new UsernamePasswordToken(telAndCode.getTel(), telAndCode.getCode());
@@ -46,6 +57,10 @@ public class AuthController {
         }
     }
 
+    /**
+     * 登录状态查询
+     * @return {}
+     */
     @GetMapping("/status")
     public Object loginStatus() {
         User user = UserContext.getCurrentUser();
@@ -57,6 +72,9 @@ public class AuthController {
 
     }
 
+    /**
+     * 注销登录
+     */
     @PostMapping("/logout")
     public void logout() {
         SecurityUtils.getSubject().logout();
