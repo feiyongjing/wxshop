@@ -346,6 +346,11 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
                         .collect(Collectors.toList()));
     }
 
+    /**
+     * 修改订单接口
+     * 订单ID参数错误，找不到订单
+     * @throws Exception
+     */
     @Test
     public void return404IfOrderNotFound() throws Exception {
         UserLoginResponse loginResponse = loginAndGetCookie();
@@ -356,6 +361,11 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
                 doHttpResponse("/api/order/1234567", "PATCH", order, loginResponse.cookie).code);
     }
 
+    /**
+     * 修改订单接口
+     * 修改订单快递信息
+     * @throws Exception
+     */
     @Test
     public void canUpdateOrderExpressInfomation() throws Exception {
         UserLoginResponse loginResponse = loginAndGetCookie();
@@ -389,6 +399,11 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
         Assertions.assertEquals(10, response.getData().getGoods().get(0).getNumber());
     }
 
+    /**
+     * 修改订单接口
+     * 修改订单状态
+     * @throws Exception
+     */
     @Test
     public void canUpdateOrderStatus() throws Exception {
         UserLoginResponse loginResponse = loginAndGetCookie();
