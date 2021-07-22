@@ -105,7 +105,11 @@ public class RpcOrderRpcServiceImpl implements OrderRpcService {
 
     @Override
     public Order getOrderByOrderId(long orderId) {
-        return orderMapper.selectByPrimaryKey(orderId);
+        Order currentOrder = orderMapper.selectByPrimaryKey(orderId);
+        if (currentOrder == null) {
+            throw HttpException.notFound("订单未找到：" + orderId);
+        }
+        return currentOrder;
     }
 
     @Override
