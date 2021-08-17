@@ -38,7 +38,7 @@ public class ShoppingCartIntegrationTest extends AbstractIntegrationTest {
         item.setNumber(2);
         body.setGoods(Collections.singletonList(item));
 
-        HttpResponse httpResponse = doHttpResponse("/api/shoppingCart", "POST", body, userLoginResponse.cookie);
+        HttpResponse httpResponse = doHttpResponse("/api/v1/shoppingCart", "POST", body, userLoginResponse.cookie);
 
         Response<ShoppingCartData> response = objectMapper.readValue(httpResponse.body, new TypeReference<Response<ShoppingCartData>>() {
         });
@@ -80,7 +80,7 @@ public class ShoppingCartIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void getShoppingCartTest() throws JsonProcessingException {
         UserLoginResponse userLoginResponse = loginAndGetCookie();
-        HttpResponse httpResponse = doHttpResponse("/api/shoppingCart?pageNum=1&pageSize=3", "GET", null, userLoginResponse.cookie);
+        HttpResponse httpResponse = doHttpResponse("/api/v1/shoppingCart?pageNum=1&pageSize=3", "GET", null, userLoginResponse.cookie);
         Response<PageResponse<ShoppingCartData>> shoppingCartDataInResponse = objectMapper.readValue(httpResponse.body, new TypeReference<Response<PageResponse<ShoppingCartData>>>() {
         });
         PageResponse<ShoppingCartData> response = shoppingCartDataInResponse.getData();
@@ -110,7 +110,7 @@ public class ShoppingCartIntegrationTest extends AbstractIntegrationTest {
     @Test
     public void deleteGoodsInShoppingCartTest() throws JsonProcessingException {
         UserLoginResponse userLoginResponse = loginAndGetCookie();
-        HttpResponse httpResponse = doHttpResponse("/api/shoppingCart/4", "DELETE", null, userLoginResponse.cookie);
+        HttpResponse httpResponse = doHttpResponse("/api/v1/shoppingCart/4", "DELETE", null, userLoginResponse.cookie);
         Response<ShoppingCartData> shoppingCartDataInResponse = objectMapper.readValue(httpResponse.body, new TypeReference<Response<ShoppingCartData>>() {
         });
         ShoppingCartData responseData = shoppingCartDataInResponse.getData();

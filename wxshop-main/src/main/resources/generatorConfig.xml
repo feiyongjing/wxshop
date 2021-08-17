@@ -5,9 +5,14 @@
 
 <generatorConfiguration>
     <context id="wxshop" targetRuntime="MyBatis3">
+        <!-- 这个插件给自动生成的TO类 implements Serializable-->
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+        <!-- 这个插件给自动生成的Mapper类 添加 @Mapper注解 -->
         <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin" />
+        <!-- 这个插件给自动生成的Mapper.xml文件 每次重复生成文件时覆盖原文件而不是追加到原XML文件的末尾 -->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
         <plugin type="com.qiukeke.mybatis.plugins.MySQLLimitPlugin" />
+
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/wxshop?useSSL=false&amp;allowPublicKeyRetrieval=true"
                         userId="root"

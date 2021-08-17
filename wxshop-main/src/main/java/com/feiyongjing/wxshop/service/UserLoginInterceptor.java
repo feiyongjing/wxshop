@@ -1,6 +1,7 @@
 package com.feiyongjing.wxshop.service;
 
 import com.feiyongjing.wxshop.generate.User;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
+@Slf4j
 @Service
 public class UserLoginInterceptor implements HandlerInterceptor {
     private UserService userService;
@@ -23,10 +25,10 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     private boolean isWhitelist(HttpServletRequest request) {
         String uri = request.getRequestURI();
         return Arrays.asList(
-                "/api/code",
-                "/api/login",
-                "/api/status",
-                "/api/logout",
+                "/api/v1/code",
+                "/api/v1/login",
+                "/api/v1/status",
+                "/api/v1/logout",
                 "/error",
                 "/",
                 "/index.html",
@@ -36,6 +38,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        log.info("当前参数"+request.getQueryString());
         if (SecurityUtils.getSubject().isAuthenticated()) {
             Object tel = SecurityUtils.getSubject().getPrincipal();
             User user = userService.getUserByTel(tel.toString());

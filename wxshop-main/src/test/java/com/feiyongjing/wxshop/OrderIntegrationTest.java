@@ -74,7 +74,7 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
 
         orderInfo.setGoodsInfos(Arrays.asList(goodsInfo1, goodsInfo2));
 
-        Response<OrderResponse> orderInResponse = doHttpResponse("/api/order", "POST", orderInfo, userLoginResponse.cookie)
+        Response<OrderResponse> orderInResponse = doHttpResponse("/api/v1/order", "POST", orderInfo, userLoginResponse.cookie)
                 .assertOkStatusCode()
                 .asJsonObject(new TypeReference<Response<OrderResponse>>() {
                 });
@@ -121,7 +121,7 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
         goodsInfo2.setNumber(6);
         orderInfo.setGoodsInfos(Arrays.asList(goodsInfo1, goodsInfo2));
 
-        HttpResponse httpResponse = doHttpResponse("/api/order", "POST", orderInfo, userLoginResponse.cookie);
+        HttpResponse httpResponse = doHttpResponse("/api/v1/order", "POST", orderInfo, userLoginResponse.cookie);
         Response<OrderResponse> orderInResponse = objectMapper.readValue(httpResponse.body, new TypeReference<Response<OrderResponse>>() {
         });
         Assertions.assertEquals(HttpStatus.GONE.value(), httpResponse.code);
@@ -154,7 +154,7 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
         when(mockOrderRpcService.orderRpcService.getOrder(anyInt(), anyInt(), any(), anyLong()))
                 .thenReturn(PageResponse.of(1, 2, 1,
                         Collections.singletonList(mockRpcOderGoods(101, 1, 4, 2, 3, DataStatus.RECEIVED))));
-        PageResponse<OrderResponse> orderInResponse = doHttpResponse("/api/order?pageSize=2&pageNum=1", "GET", null, userLoginResponse.cookie)
+        PageResponse<OrderResponse> orderInResponse = doHttpResponse("/api/v1/order?pageSize=2&pageNum=1", "GET", null, userLoginResponse.cookie)
                 .assertOkStatusCode()
                 .asJsonObject(new TypeReference<PageResponse<OrderResponse>>() {
                 });
@@ -226,7 +226,7 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
     private void deleteOrderTest(UserLoginResponse userLoginResponse) throws JsonProcessingException {
         when(mockOrderRpcService.orderRpcService.deleteOrder(100L, 1L))
                 .thenReturn(mockRpcOderGoods(100L, 1L, 3L, 2L, 5, DataStatus.DELIVERED));
-        Response<OrderResponse> orderInResponse = doHttpResponse("/api/order/100", "DELETE", null, userLoginResponse.cookie)
+        Response<OrderResponse> orderInResponse = doHttpResponse("/api/v1/order/100", "DELETE", null, userLoginResponse.cookie)
                 .assertOkStatusCode()
                 .asJsonObject(new TypeReference<Response<OrderResponse>>() {
                 });
@@ -281,7 +281,7 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
     private void QueryBeforeDeletingAnOrder(UserLoginResponse userLoginResponse) throws JsonProcessingException {
         when(mockOrderRpcService.orderRpcService.getOrder(anyInt(), anyInt(), any(), anyLong()))
                 .thenReturn(mockResponse());
-        PageResponse<OrderResponse> orderInResponse = doHttpResponse("/api/order?pageSize=2&pageNum=1", "GET", null, userLoginResponse.cookie)
+        PageResponse<OrderResponse> orderInResponse = doHttpResponse("/api/v1/order?pageSize=2&pageNum=1", "GET", null, userLoginResponse.cookie)
                 .assertOkStatusCode()
                 .asJsonObject(new TypeReference<PageResponse<OrderResponse>>() {
                 });
@@ -356,7 +356,7 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
         Order order = new Order();
         order.setId(12345L);
         Assertions.assertEquals(HttpURLConnection.HTTP_NOT_FOUND,
-                doHttpResponse("/api/order/1234567", "PATCH", order, loginResponse.cookie).code);
+                doHttpResponse("/api/v1/order/1234567", "PATCH", order, loginResponse.cookie).code);
     }
 
     /**
@@ -389,7 +389,7 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
                 mockRpcOderGoods(12345L, 1L, 3L, 2L, 10, DataStatus.DELIVERED)
         );
 
-        Response<OrderResponse> response = doHttpResponse("/api/order/12345", "PATCH", orderUpdateRequest, loginResponse.cookie)
+        Response<OrderResponse> response = doHttpResponse("/api/v1/order/12345", "PATCH", orderUpdateRequest, loginResponse.cookie)
                 .assertOkStatusCode()
                 .asJsonObject(new TypeReference<Response<OrderResponse>>() {
                 });
@@ -431,7 +431,7 @@ public class OrderIntegrationTest extends AbstractIntegrationTest {
                 mockRpcOderGoods(12345L, 1L, 3L, 2L, 10, DataStatus.RECEIVED)
         );
 
-        Response<OrderResponse> response = doHttpResponse("/api/order/12345", "PATCH", orderUpdateRequest, loginResponse.cookie)
+        Response<OrderResponse> response = doHttpResponse("/api/v1/order/12345", "PATCH", orderUpdateRequest, loginResponse.cookie)
                 .assertOkStatusCode()
                 .asJsonObject(new TypeReference<Response<OrderResponse>>() {
                 });

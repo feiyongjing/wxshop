@@ -35,7 +35,7 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
         shop.setImgUrl("https://img.url");
         shop.setOwnerUserId(userLoginResponse.user.getId());
 
-        HttpResponse shopResponse = doHttpResponse("/api/shop", "POST", shop, userLoginResponse.cookie);
+        HttpResponse shopResponse = doHttpResponse("/api/v1/shop", "POST", shop, userLoginResponse.cookie);
         Response<Shop> shopInResponse = objectMapper.readValue(shopResponse.body, new TypeReference<Response<Shop>>() {
         });
         Assertions.assertEquals(201, shopResponse.code);
@@ -65,7 +65,7 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
         goods.setStock(10);
         goods.setShopId(shopId);
 
-        HttpResponse goodsResponse = doHttpResponse("/api/goods", "POST", goods, userLoginResponse.cookie);
+        HttpResponse goodsResponse = doHttpResponse("/api/v1/goods", "POST", goods, userLoginResponse.cookie);
         Response<Goods> goodsInResponse = objectMapper.readValue(goodsResponse.body, new TypeReference<Response<Goods>>() {
         });
         Goods goodsResponseData = goodsInResponse.getData();
@@ -89,7 +89,7 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
      * @throws JsonProcessingException
      */
     public void testGetShopById(UserLoginResponse userLoginResponse, Long shopId) throws JsonProcessingException {
-        HttpResponse shopResponse = doHttpResponse("/api/shop/" + shopId, "GET", null, userLoginResponse.cookie);
+        HttpResponse shopResponse = doHttpResponse("/api/v1/shop/" + shopId, "GET", null, userLoginResponse.cookie);
         Response<Shop> shopInResponse = objectMapper.readValue(shopResponse.body, new TypeReference<Response<Shop>>() {
         });
         Assertions.assertEquals(200, shopResponse.code);
@@ -110,7 +110,7 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
      */
     public void testGetGoodsById(UserLoginResponse userLoginResponse, Long goodsId) throws JsonProcessingException {
 
-        HttpResponse goodsResponse = doHttpResponse("/api/goods/" + goodsId, "GET", null, userLoginResponse.cookie);
+        HttpResponse goodsResponse = doHttpResponse("/api/v1/goods/" + goodsId, "GET", null, userLoginResponse.cookie);
         Response<Goods> goodsInResponse = objectMapper.readValue(goodsResponse.body, new TypeReference<Response<Goods>>() {
         });
         Goods goodsResponseData = goodsInResponse.getData();
@@ -140,7 +140,7 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
         shop.setDescription("我的西瓜专卖店");
         shop.setImgUrl("https://img.url");
 
-        HttpResponse shopResponse = doHttpResponse("/api/shop/" + shopId, "PATCH", shop, userLoginResponse.cookie);
+        HttpResponse shopResponse = doHttpResponse("/api/v1/shop/" + shopId, "PATCH", shop, userLoginResponse.cookie);
         Response<Shop> shopInResponse = objectMapper.readValue(shopResponse.body, new TypeReference<Response<Shop>>() {
         });
         Assertions.assertEquals(200, shopResponse.code);
@@ -170,7 +170,7 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
         goods.setStock(20);
         goods.setShopId(shopId);
 
-        HttpResponse goodsResponse = doHttpResponse("/api/goods/" + goodsId, "PATCH", goods, userLoginResponse.cookie);
+        HttpResponse goodsResponse = doHttpResponse("/api/v1/goods/" + goodsId, "PATCH", goods, userLoginResponse.cookie);
         Response<Goods> goodsInResponse = objectMapper.readValue(goodsResponse.body, new TypeReference<Response<Goods>>() {
         });
         Goods goodsResponseData = goodsInResponse.getData();
@@ -194,10 +194,10 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
      * @throws JsonProcessingException
      */
     public void testDeleteGoods(UserLoginResponse userLoginResponse, Long goodsId, Long shopId) throws JsonProcessingException {
-        HttpResponse goodsResponse = doHttpResponse("/api/goods/" + goodsId, "DELETE", null, userLoginResponse.cookie);
+        HttpResponse goodsResponse = doHttpResponse("/api/v1/goods/" + goodsId, "DELETE", null, userLoginResponse.cookie);
         Assertions.assertEquals(204, goodsResponse.code);
 
-        goodsResponse = doHttpResponse("/api/goods/" + goodsId, "GET", null, userLoginResponse.cookie);
+        goodsResponse = doHttpResponse("/api/v1/goods/" + goodsId, "GET", null, userLoginResponse.cookie);
         Response<Goods> goodsInResponse = objectMapper.readValue(goodsResponse.body, new TypeReference<Response<Goods>>() {
         });
         Assertions.assertEquals(200, goodsResponse.code);
@@ -214,10 +214,10 @@ public class GoodsIntegrationTest extends AbstractIntegrationTest {
      * @throws JsonProcessingException
      */
     public void testDeleteShop(UserLoginResponse userLoginResponse, Long shopId) throws JsonProcessingException {
-        HttpResponse shopResponse = doHttpResponse("/api/shop/" + shopId, "DELETE", null, userLoginResponse.cookie);
+        HttpResponse shopResponse = doHttpResponse("/api/v1/shop/" + shopId, "DELETE", null, userLoginResponse.cookie);
         Assertions.assertEquals(204, shopResponse.code);
 
-        shopResponse = doHttpResponse("/api/shop/" + shopId, "GET", null, userLoginResponse.cookie);
+        shopResponse = doHttpResponse("/api/v1/shop/" + shopId, "GET", null, userLoginResponse.cookie);
         Response<Shop> shopInResponse = objectMapper.readValue(shopResponse.body, new TypeReference<Response<Shop>>() {
         });
         Assertions.assertEquals(200, shopResponse.code);

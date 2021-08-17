@@ -14,7 +14,7 @@ import static javax.servlet.http.HttpServletResponse.SC_CREATED;
 import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class ShopController {
     private ShopService shopService;
 

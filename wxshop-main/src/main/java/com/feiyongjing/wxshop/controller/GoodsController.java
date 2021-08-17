@@ -13,7 +13,7 @@ import java.util.Date;
 import static javax.servlet.http.HttpServletResponse.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class GoodsController {
     private GoodsService goodsService;
 

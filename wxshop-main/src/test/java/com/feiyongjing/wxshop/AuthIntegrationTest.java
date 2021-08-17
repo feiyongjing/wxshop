@@ -32,17 +32,17 @@ public class AuthIntegrationTest extends AbstractIntegrationTest{
         // 带着验证码登录, 得到Cookie
         String sessionId=loginAndGetCookie().cookie;
         // 带着Cookie访问 /api/status 应该处于登录状态
-        String statusResponse = doHttpResponse("/api/status", "GET", null, sessionId).body;
+        String statusResponse = doHttpResponse("/api/v1/status", "GET", null, sessionId).body;
         LoginResponse response = objectMapper.readValue(statusResponse, LoginResponse.class);
         Assertions.assertTrue(response.isLogin());
         Assertions.assertEquals(VALID_PARAMETER_CODE.getTel(), response.getUser().getTel());
 
         // 调用/api/logout
         //注销登录使Cookie失效, 注意注意登录也需要Cookie
-        HttpResponse httpResponse = doHttpResponse("/api/logout", "POST", null, sessionId);
+        HttpResponse httpResponse = doHttpResponse("/api/v1/logout", "POST", null, sessionId);
 
         // 再次带着Cookie访问/api/status 恢复成为未登录状态
-        statusResponse = doHttpResponse("/api/status", "GET", null, sessionId).body;
+        statusResponse = doHttpResponse("/api/v1/status", "GET", null, sessionId).body;
         response = objectMapper.readValue(statusResponse, LoginResponse.class);
         Assertions.assertFalse(response.isLogin());
 
@@ -50,7 +50,7 @@ public class AuthIntegrationTest extends AbstractIntegrationTest{
 
     @Test
     public void returnHttpOkWhenParameterIsCorrect() throws IOException {
-        int requestCode = HttpRequest.post(getUrl("/api/code"))
+        int requestCode = HttpRequest.post(getUrl("/api/v1/code"))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .send(objectMapper.writeValueAsString(VALID_PARAMETER))
@@ -59,7 +59,7 @@ public class AuthIntegrationTest extends AbstractIntegrationTest{
     }
     @Test
     public void returnUnauthorizedIfNotlogin() throws IOException {
-        int requestCode = HttpRequest.post(getUrl("/api/rests"))
+        int requestCode = HttpRequest.post(getUrl("/api/v1/rests"))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .code();
@@ -68,7 +68,7 @@ public class AuthIntegrationTest extends AbstractIntegrationTest{
 
     @Test
     public void returnHttpBadRequestWhenParameterIsCorrect() throws IOException {
-        int requestCode = HttpRequest.post(getUrl("/api/code"))
+        int requestCode = HttpRequest.post(getUrl("/api/v1/code"))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .send(objectMapper.writeValueAsString(TelVerificationServiceTest.EMPTY_PARAMETER))
