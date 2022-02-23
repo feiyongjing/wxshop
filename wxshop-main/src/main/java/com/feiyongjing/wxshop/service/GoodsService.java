@@ -79,6 +79,7 @@ public class GoodsService {
         int totalNumber = countGoods(shopId);
         int totalPage = totalNumber % pageSize == 0 ? totalNumber / pageSize : totalNumber / pageSize + 1;
         GoodsExample goodsExample = new GoodsExample();
+        goodsExample.createCriteria().andStatusNotEqualTo(DataStatus.DELETED.getName());
         goodsExample.setLimit(pageSize);
         goodsExample.setOffset((pageNum - 1) * pageSize);
         List<Goods> goodsList = goodsMapper.selectByExample(goodsExample);
@@ -101,7 +102,7 @@ public class GoodsService {
 
     public Goods getGoodsById(Long id) {
         Goods goods = goodsMapper.selectByPrimaryKey(id);
-        if (goods == null) {
+        if (goods == null || goods.getStatus().equals(DataStatus.DELETED.getName())) {
             throw HttpException.notFound("商品未找到!");
         } else {
             return goods;

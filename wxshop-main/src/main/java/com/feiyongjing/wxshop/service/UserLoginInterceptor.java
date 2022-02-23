@@ -39,6 +39,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("当前参数"+request.getQueryString());
+        log.info("请求路径："+ request.getRequestURI());
         if (SecurityUtils.getSubject().isAuthenticated()) {
             Object tel = SecurityUtils.getSubject().getPrincipal();
             User user = userService.getUserByTel(tel.toString());

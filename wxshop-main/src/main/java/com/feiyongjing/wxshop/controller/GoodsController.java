@@ -73,10 +73,10 @@ public class GoodsController {
      */
     @GetMapping("/goods")
     @ResponseBody
-    public Response<PageResponse<Goods>> getGoods(@RequestParam("pageNum") Integer pageNum,
+    public PageResponse<Goods> getGoods(@RequestParam("pageNum") Integer pageNum,
                                                   @RequestParam("pageSize") Integer pageSize,
                                                   @RequestParam(value = "shopId", required = false) Long shopId) {
-        return Response.of(goodsService.getGoods(pageNum, pageSize, shopId));
+        return goodsService.getGoods(pageNum, pageSize, shopId);
     }
 
     /**

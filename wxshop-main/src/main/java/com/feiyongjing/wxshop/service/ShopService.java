@@ -27,7 +27,8 @@ public class ShopService {
         int totalNum = countShop(UserId);
         int totalPage = totalNum % pageSize == 0 ? totalNum / pageSize : totalNum / pageSize + 1;
         ShopExample shopExample = new ShopExample();
-        shopExample.createCriteria().andOwnerUserIdEqualTo(UserId);
+        shopExample.createCriteria().andOwnerUserIdEqualTo(UserId)
+                .andStatusNotEqualTo(DataStatus.DELETED.getName());
         shopExample.setLimit(pageSize);
         shopExample.setOffset((pageNum - 1) * pageSize);
         List<Shop> data = shopMapper.selectByExample(shopExample);

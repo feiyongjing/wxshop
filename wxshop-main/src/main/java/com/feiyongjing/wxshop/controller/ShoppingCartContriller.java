@@ -35,9 +35,9 @@ public class ShoppingCartContriller {
      * @return {}
      */
     @GetMapping("/shoppingCart")
-    public Response<PageResponse<ShoppingCartData>> getShoppingCart(@RequestParam("pageNum") int pageNum,
+    public PageResponse<ShoppingCartData> getShoppingCart(@RequestParam("pageNum") int pageNum,
                                                                     @RequestParam("pageSize") int pageSize) {
-        return Response.of(shoppingCartService.getShoppingCart(pageNum, pageSize));
+        return shoppingCartService.getShoppingCart(pageNum, pageSize);
     }
 
     /**

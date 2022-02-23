@@ -39,7 +39,7 @@ public class ShiroConfig implements WebMvcConfigurer {
     private UserLoginInterceptor userLoginInterceptor;
 
     @Autowired
-    public ShiroConfig(UserLoginInterceptor userLoginInterceptor, ShiroLoginFilter shiroLoginFilter) {
+    public ShiroConfig(UserLoginInterceptor userLoginInterceptor) {
         this.userLoginInterceptor = userLoginInterceptor;
     }
 

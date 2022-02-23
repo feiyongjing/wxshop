@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.feiyongjing.wxshop.entity.LoginResponse;
 import com.feiyongjing.wxshop.generate.User;
 import com.github.kevinsawicki.http.HttpRequest;
+import org.apache.commons.io.Charsets;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.ClassicConfiguration;
 import org.junit.jupiter.api.Assertions;
@@ -15,6 +16,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +40,7 @@ public class AbstractIntegrationTest {
     @Value("${spring.datasource.password}")
     private String databasePassword;
 
+
     @BeforeEach
     public void initDatabase() {
         // 在每个测试开始前，执行一次flyway:clean flyway:migrate
@@ -44,6 +50,7 @@ public class AbstractIntegrationTest {
         flyway.clean();
         flyway.migrate();
     }
+
 
     public UserLoginResponse loginAndGetCookie() throws JsonProcessingException {
         // 最开始默认情况下，访问/api/status 处于未登录状态
